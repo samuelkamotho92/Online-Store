@@ -10,7 +10,7 @@ namespace Online_Store.Services.IService
 
         Task<string> AddOrder(Order order);
 
-        Task<string> UpdateOrder(Order order);
+       Task<string>  UpdateOrder(Order order);
 
         Task<string> DeleteOrder(Order order);
     }

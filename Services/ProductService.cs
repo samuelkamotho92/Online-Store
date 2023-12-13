@@ -17,8 +17,9 @@ namespace Online_Store.Services
         {
             try
             {
-              await  _context.Products.AddAsync(product);
-                return "Added product successfully";
+                await  _context.Products.AddAsync(product);
+                _context.SaveChanges();
+                return "success";
             }catch(Exception ex)
             {
                 return $"Something went wrong {ex.InnerException}";
@@ -30,6 +31,7 @@ namespace Online_Store.Services
             try
             {
                 _context.Products.Remove(product);
+               await  _context.SaveChangesAsync();
                 return "Removed product successfuly";
             }catch(Exception ex)
             {
@@ -45,7 +47,6 @@ namespace Online_Store.Services
             {
                 return product;
             }
-            Console.WriteLine("Product cannot be empty");
             return product;
          
         }
@@ -61,6 +62,8 @@ namespace Online_Store.Services
             try
             {
                 _context.Products.Update(prod);
+              await  _context.SaveChangesAsync();
+
                 return "updated successfully";
             }
             catch(Exception e)

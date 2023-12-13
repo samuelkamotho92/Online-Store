@@ -10,7 +10,7 @@ namespace Online_Store.Profiles
     {
         public onlineStoreProfile() {
 
-            CreateMap<AddProductDto, Products>().ReverseMap();
+           CreateMap<AddProductDto, Products>().ReverseMap();
            CreateMap<AddOrderDto, Order>().ReverseMap();    
         }
     }

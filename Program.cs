@@ -1,4 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Online_Store.Data;
 using Online_Store.Services;
 using Online_Store.Services.IService;
 
@@ -10,10 +13,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//adding our service using injection
+//service using injection
 builder.Services.AddScoped<IProductService,ProductService>();
+builder.Services.AddScoped<IOrder,OrderService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+//Setting connection to database
+builder.Services.AddDbContext<OnlineStoreDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection"));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

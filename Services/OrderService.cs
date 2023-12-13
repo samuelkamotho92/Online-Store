@@ -1,34 +1,76 @@
-﻿using Online_Store.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Online_Store.Data;
+using Online_Store.Models;
 using Online_Store.Services.IService;
 
 namespace Online_Store.Services
 {
     public class OrderService : IOrder
     {
+        private readonly OnlineStoreDbContext _context;
+        public OrderService(OnlineStoreDbContext context) {
+            _context = context;
+        }
         
-        public Task<string> AddOrder(Order order)
+        public async Task<string> AddOrder(Order order)
         {
-            throw new NotImplementedException();
+            try
+            {
+               _context.Orders.AddAsync(order);
+                await _context.SaveChangesAsync();
+                return "successfully created order";
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"{e.InnerException}");
+                return $"{e.InnerException}";
+            }
+          
         }
 
-        public Task<string> DeleteOrder(Order order)
+        public async Task<string> DeleteOrder(Order order)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Orders.Remove(order);
+                _context.SaveChangesAsync();
+                return "removed successfully";
+
+            }catch(Exception e)
+            {
+                return $"{e.InnerException}";
+            }
         }
 
-        public Task<Order> GetOrderAsync(Guid id)
+        public async Task<Order> GetOrderAsync(Guid id)
         {
-            throw new NotImplementedException();
+          
+           Order order = await  _context.Orders.FindAsync(id);
+                if(order != null)
+                {
+                    return order;
+                }
+            return order;
         }
 
-        public Task<List<Order>> GetOrdersAsync()
+        public async Task<List<Order>> GetOrdersAsync()
         {
-            throw new NotImplementedException();
+            List<Order> orders = _context.Orders.Include(x=>x.Products).ToList();
+            return orders;
         }
 
-        public Task<string> UpdateOrder(Order order)
+        public async Task<string> UpdateOrder(Order order)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Orders.Update(order);
+               _context.SaveChanges();
+                return "Success";
+            }
+            catch (Exception e)
+            {
+                return $"{e.InnerException}";
+            }
         }
     }
 }
