@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Online_Store.Dtos;
@@ -42,6 +43,7 @@ namespace Online_Store.Controllers
         }
 
         [HttpPost("{id}")]
+        [Authorize]
         public async Task<ActionResult<ResponseDto>> AddOrder(Guid id,AddOrderDto addOrderDto)
         {
             try
@@ -80,6 +82,7 @@ namespace Online_Store.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<ResponseDto>> UpdateOrder(Guid id, AddOrderDto updatedOrder)
         {
             try
@@ -105,6 +108,7 @@ namespace Online_Store.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<ResponseDto>> deleteOrder(Guid id)
         {
             try

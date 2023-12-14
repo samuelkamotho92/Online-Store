@@ -9,5 +9,7 @@ namespace Online_Store.Models
         public HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
 
         public object Result { get; set; }
+
+        public string token {get;set;}
     }
 }

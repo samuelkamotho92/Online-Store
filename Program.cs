@@ -1,9 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Online_Store.Data;
+using Online_Store.Extensions;
+using Online_Store.Models;
 using Online_Store.Services;
 using Online_Store.Services.IService;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +20,32 @@ builder.Services.AddSwaggerGen();
 //service using injection
 builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IOrder,OrderService>();
+builder.Services.AddScoped<IUser, UserService>();
+builder.Services.AddScoped<IJWT, LoginService>();
+
+
+builder.AddSwaggenGenExtension();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
 
 //Setting connection to database
 builder.Services.AddDbContext<OnlineStoreDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection"));
 });
+builder.AddAuth();
+//policy
+/*builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", options =>
+    {
+        options.RequireAuthenticatedUser();
+        options.RequireClaim("roles","Admin")
+    })
+})*/
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +56,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//add middleware
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace Online_Store.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   
     public class ProductController : ControllerBase
     {
         private readonly ResponseDto _responseDto;
@@ -62,12 +64,14 @@ namespace Online_Store.Controllers
           
         }
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ResponseDto>> AddProduct(AddProductDto addproduct)
         {
             try
             {
                 //imapper for mapping
                 var newProduct = _mapper.Map<Products>(addproduct);
+                Console.WriteLine(newProduct.Name);
                 string resp = await _productService.AddProduct(newProduct);
                 _responseDto.message = resp;
                 _responseDto.Result = newProduct;
@@ -85,6 +89,7 @@ namespace Online_Store.Controllers
          
         }
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<ResponseDto>> UpdateProduct(Guid id,AddProductDto updatedProd)
         {
             try {
@@ -108,6 +113,7 @@ namespace Online_Store.Controllers
             }         
         }
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<ResponseDto>> DeleteProduct(Guid id)
         {
             try

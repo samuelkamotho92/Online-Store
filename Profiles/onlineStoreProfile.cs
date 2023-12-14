@@ -12,6 +12,7 @@ namespace Online_Store.Profiles
 
            CreateMap<AddProductDto, Products>().ReverseMap();
            CreateMap<AddOrderDto, Order>().ReverseMap();    
+          CreateMap<AddUserDto,User>().ReverseMap();
         }
     }
 }
