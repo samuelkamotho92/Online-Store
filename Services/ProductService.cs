@@ -51,10 +51,14 @@ namespace Online_Store.Services
          
         }
 
-        public async Task<List<Products>> GetProductsAsync()
+        public async Task<List<Products>> GetProductsAsync(int page,int pageSize)
         {
                 List<Products> products = _context.Products.ToList();
-                return products;
+                int skip = (page - 1) * pageSize;
+
+            // Apply pagination using LINQ Skip and Take methods
+             var paginatedProducts = products.Skip(skip).Take(pageSize).ToList();
+            return paginatedProducts;
         }
 
         public async Task<string> UpdateProduct(Products prod)
@@ -70,7 +74,22 @@ namespace Online_Store.Services
             {
                 return ($"something went very wrong {e.InnerException}");
             }
-    
+        }
+
+        public async Task<List<Products>> GetByFilterAsync(string productName,int productPrice)
+        {
+            //Check based on the name and price
+            IQueryable<Products> query = _context.Products;
+            if (!string.IsNullOrEmpty(productName))
+            {
+                query = query.Where(p => p.Name.Contains(productName));
+            }
+            if (productPrice>0)
+            {
+                query = query.Where(p => p.price<= productPrice);
+            }
+           var result =   query.ToList();
+            return result;
         }
     }
 }

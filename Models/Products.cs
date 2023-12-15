@@ -11,5 +11,10 @@
         public string Category { get; set; }
 
         public int price { get; set; }
+
+        internal Products Where(Func<object, bool> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -27,11 +27,11 @@ namespace Online_Store.Controllers
             _responseDto = new ResponseDto();
         }
         [HttpGet]
-        public async Task<ActionResult<List<Products>>>  GetProducts()
+        public async Task<ActionResult<List<Products>>>  GetProducts(int page,int pageSize)
         {
             try
             {
-                _responseDto.Result = await _productService.GetProductsAsync();
+                _responseDto.Result = await _productService.GetProductsAsync(page,pageSize);
                 _responseDto.message = "Success";
                 return Ok(_responseDto);
             }
@@ -134,5 +134,24 @@ namespace Online_Store.Controllers
             }
            
         }
+        //Filter Product based on product name,price
+        [HttpGet("filterProducts")]
+        public async Task<ActionResult<ResponseDto>> GetSelectedProduct(string name,int price)
+        {
+            try
+            {
+               var products =  _productService.GetByFilterAsync(name,price);
+               _responseDto.Result = products.Result;
+                _responseDto.message = "Fetched products successfully";
+                return Ok(_responseDto);
+            }catch(Exception e)
+            {
+                _responseDto.message = $"{e.InnerException}";
+                return BadRequest(_responseDto);
+            }
+
+        }
+
+
     }
 }

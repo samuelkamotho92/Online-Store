@@ -43,7 +43,6 @@ namespace Online_Store.Controllers
         }
 
         [HttpPost("{id}")]
-        [Authorize]
         public async Task<ActionResult<ResponseDto>> AddOrder(Guid id,AddOrderDto addOrderDto)
         {
             try

@@ -37,14 +37,14 @@ builder.Services.AddDbContext<OnlineStoreDbContext>(options =>
 });
 builder.AddAuth();
 //policy
-/*builder.Services.AddAuthorization(options =>
+builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", options =>
     {
         options.RequireAuthenticatedUser();
-        options.RequireClaim("roles","Admin")
-    })
-})*/
+        options.RequireClaim("roles", "Admin");
+    });
+});
 
 var app = builder.Build();
 
