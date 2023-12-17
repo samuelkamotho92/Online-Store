@@ -64,7 +64,7 @@ namespace Online_Store.Controllers
           
         }
         [HttpPost]
-        [Authorize]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult<ResponseDto>> AddProduct(AddProductDto addproduct)
         {
             try
@@ -84,12 +84,13 @@ namespace Online_Store.Controllers
             {
                 _responseDto.StatusCode = HttpStatusCode.NotFound;
                 _responseDto.message = $"failure {e.InnerException}";
+                Console.WriteLine(_responseDto);
                 return BadRequest(_responseDto);
             }
          
         }
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult<ResponseDto>> UpdateProduct(Guid id,AddProductDto updatedProd)
         {
             try {
@@ -113,7 +114,7 @@ namespace Online_Store.Controllers
             }         
         }
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult<ResponseDto>> DeleteProduct(Guid id)
         {
             try
@@ -135,7 +136,7 @@ namespace Online_Store.Controllers
            
         }
         //Filter Product based on product name,price
-        [HttpGet("filterProducts")]
+        [HttpGet("{name}/{price}")]
         public async Task<ActionResult<ResponseDto>> GetSelectedProduct(string name,int price)
         {
             try

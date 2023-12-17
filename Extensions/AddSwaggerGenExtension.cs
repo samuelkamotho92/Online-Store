@@ -31,7 +31,6 @@ namespace Online_Store.Extensions
                     Id=JwtBearerDefaults.AuthenticationScheme
                 }
             }, new string[]{}
-
         }
     });
             });
