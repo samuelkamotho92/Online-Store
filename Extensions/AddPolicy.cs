@@ -11,7 +11,7 @@
                 options.AddPolicy("AdminPolicy", options =>
                 {
                     options.RequireAuthenticatedUser();
-                    options.RequireClaim("roles", "Admin");
+                    options.RequireClaim("Roles", "Admin");
                 });
             });
 

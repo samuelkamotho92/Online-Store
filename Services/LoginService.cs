@@ -29,7 +29,7 @@ namespace Online_Store.Services
             var cred = new SigningCredentials(key,SecurityAlgorithms.HmacSha256);
             //payload
             List<Claim> claims = new List<Claim>();
-            claims.Add(new Claim("roles",user.roles));
+            claims.Add(new Claim("Roles",user.roles));
             claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.id.ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Name, user.name.ToString()));
             //token descriptor - expiry dates
